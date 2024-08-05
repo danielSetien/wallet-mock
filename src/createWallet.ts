@@ -2,7 +2,7 @@ import {
   Hex,
   Transport,
   createWalletClient,
-  fromHex, publicActions, Account, http,
+  fromHex, publicActions, Account, http, toHex,
 } from "viem";
 import * as chains from "viem/chains";
 
@@ -49,6 +49,12 @@ export function createWallet(account: Account, transports: Map<number, Transport
               raw: params?.[0] as Hex,
             },
           });
+        }
+
+        if (method === 'eth_chainId') {
+          const chainIdResult = chainId ?? toHex(1);
+          console.log("Returning: eth_chainId", chainIdResult);
+          return chainIdResult;
         }
 
         if (method === "eth_sendTransaction") {
