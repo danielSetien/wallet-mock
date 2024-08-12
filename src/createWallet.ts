@@ -60,7 +60,7 @@ export function createWallet(account: Account, transports: Map<number, Transport
         if (method === "eth_sendRawTransaction") {
           console.log("eth_sendRawTransaction", params);
           return await client.sendRawTransaction({
-            serializedTransaction: (params?.[0] as any).serializedTransaction,
+            serializedTransaction: (params?.[0] as any),
           });
         }
 
