@@ -57,10 +57,16 @@ export function createWallet(account: Account, transports: Map<number, Transport
           return chainIdResult;
         }
 
+        if (method === "eth_sendRawTransaction") {
+          console.log("eth_sendRawTransaction", params);
+          return await client.sendRawTransaction({
+            serializedTransaction: (params?.[0] as any).serializedTransaction,
+          });
+        }
+
         if (method === "eth_sendTransaction") {
           const from = (params?.[0] as any).from;
           if (from !== account.address) throw new Error("Invalid from address");
-
           return await client.sendTransaction({
             to: (params?.[0] as any).to,
             data: (params?.[0] as any).data,
