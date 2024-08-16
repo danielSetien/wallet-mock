@@ -67,14 +67,21 @@ export function createWallet(account: Account, transports: Map<number, Transport
         if (method === "eth_sendTransaction") {
           const from = (params?.[0] as any).from;
           if (from !== account.address) throw new Error("Invalid from address");
+          const { to, data } = params?.[0] as any;
+          let { value, maxFeePerGas, maxPriorityFeePerGas, gas, gasPrice } = params?.[0] as any;
+          value = value ?? BigInt(value);
+          gas = gas ?? BigInt(gas);
+          gasPrice = gasPrice ?? BigInt(gasPrice);
+          maxFeePerGas = maxFeePerGas ?? BigInt(maxFeePerGas);
+          maxPriorityFeePerGas = maxPriorityFeePerGas ?? BigInt(maxPriorityFeePerGas);
           return await client.sendTransaction({
-            to: (params?.[0] as any).to,
-            data: (params?.[0] as any).data,
-            gas: (params?.[0] as any).gas,
-            gasPrice: (params?.[0] as any).gasPrice,
-            value: (params?.[0] as any).value,
-            maxFeePerGas: (params?.[0] as any).maxFeePerGas,
-            maxPriorityFeePerGas: (params?.[0] as any).maxPriorityFeePerGas,
+            to,
+            value,
+            data,
+            gas,
+            gasPrice,
+            maxFeePerGas,
+            maxPriorityFeePerGas,
           });
         }
 
