@@ -23,3 +23,14 @@ test("Metamask Wallet Test Dapp", async () => {
   await expect(page.getByRole('heading', {name: 'Active Provider'})).toBeVisible();
   await expect(page.getByText('Name: Mock Wallet')).toBeVisible();
 });
+
+test("Sign Typed Data V4 Works correctly", async () => {
+  const baseUrl = "https://metamask.github.io/test-dapp/";
+  await page.goto(baseUrl);
+  const signButton = await page.locator('#signTypedDataV4');
+  const verifyButton = await page.locator('#signTypedDataV4Verify');
+  const signResult = await page.locator('#signTypedDataV4Result');
+  await signButton.click();
+  await expect(signResult).not.toBeEmpty();
+  await verifyButton.click();
+});
