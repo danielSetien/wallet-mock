@@ -113,23 +113,6 @@ export function createWallet(
           console.log(signedTypeDataParams);
           const signature =
             await localAccount.signTypedData(signedTypeDataParams);
-          const valid = await verifyTypedData({
-            address: localAccount.address,
-            domain,
-            types,
-            primaryType: 'Mail',
-            message,
-            signature,
-          });
-          console.log(`Signature valid: ${valid}`);
-          const recoveredAddress = await recoverTypedDataAddress({ 
-            domain: domain,
-            types: types,
-            primaryType: 'Mail',
-            message: message,
-            signature,
-          });
-          console.log(`Recovered Address: ${recoveredAddress}`);
           return signature;
         }
 
